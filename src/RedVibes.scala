@@ -1,5 +1,4 @@
 object RedVibes extends App {
-  val player: Player = new Player
 
   /**
     * Play a round. Return true if player won.
@@ -22,14 +21,15 @@ object RedVibes extends App {
     * @param nGames
     * @return
     */
-  def playGames(nGames: Int, won: List[Boolean]): List[Boolean] = {
+  def playGames(nGames: Int, player: Player, won: List[Boolean]): List[Boolean] = {
     if (nGames == 0) return won
+    if (nGames % 10000 == 0) println(s"${nGames} games left")
     val board: Board =
       new Board(0, 0, false, 53, 26)
         .initializeDeck()
-    playGames(nGames - 1, won :+ winsRound(board, player))
+    playGames(nGames - 1, player, winsRound(board, player) +: won)
   }
 
-  println(playGames(1000, List()).count(outcome => outcome))
+  println(playGames(100000, new StrategicPlayer, List()).count(outcome => outcome))
 
 }
